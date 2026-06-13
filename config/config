@@ -1,0 +1,63 @@
+# Locked configuration used to produce all reported numbers (Table 1, SHAP
+# results). Mirrors the constants at the top of src/lock_and_run.py.
+
+seed: 42
+
+cross_validation:
+  n_blocks: 10
+  block_assignment: "kmeans on point coordinates, computed once and reused across all feature sets"
+  random_cv: "10-fold KFold, shuffle=true, same seed"
+  vegetation_grouping: "blocks assigned at the location level so all years of a point fall in the same fold"
+
+models:
+  random_forest:
+    used_for: soil organic carbon (regression)
+    n_estimators: 300
+    random_state: 42
+
+  xgboost:
+    used_for: vegetation stress (classification)
+    n_estimators: 300
+    max_depth: 5
+    learning_rate: 0.05
+    subsample: 0.8
+    colsample_bytree: 0.8
+    tree_method: hist
+    random_state: 42
+
+feature_sets:
+  - aef            # AlphaEarth embedding only (64 dims)
+  - stack          # engineered feature stack only
+  - aef_plus_stack # concatenation of both
+
+engineered_stack_soc:
+  - B2
+  - B3
+  - B4
+  - B8
+  - B11
+  - B12
+  - NDVI
+  - VV
+  - VH
+  - VV_div_VH
+  - VV_minus_VH
+  - aspect
+  - elev
+  - slope
+  - sm_annual
+  - t2m_summer
+  - tp_winter
+
+engineered_stack_vegetation:
+  - precip_winter
+  - precip_spring
+  - temp_spring
+  - sm_winter
+  - sm_spring
+
+embedding:
+  source: "GOOGLE/SATELLITE_EMBEDDING/V1/ANNUAL"
+  dims: 64
+  soc_year: 2018
+  vegetation_year_offset: -1  # previous-year embedding used for vegetation task
