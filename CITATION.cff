@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite both the article and the archived repository."
+title: "germany-aef-benchmark: AlphaEarth embeddings versus engineered features for soil and vegetation prediction under spatial cross-validation"
+authors:
+  - family-names: "Yakar"
+    given-names: "Funda"
+    orcid: "https://orcid.org/0000-0002-7082-3956"
+    affiliation: "Ministry of Agriculture and Forestry, Türkiye"
+    email: "fundayakar@tarimorman.gov.tr"
+license: MIT
+repository-code: "https://github.com/fundayakar/germany-aef-benchmark"
+keywords:
+  - Earth observation foundation models
+  - AlphaEarth embeddings
+  - spatial cross-validation
+  - soil organic carbon
+  - vegetation stress
+  - SHAP
+preferred-citation:
+  type: article
+  title: "Substitute or complement? Benchmarking Earth observation foundation-model embeddings against engineered features for soil and vegetation prediction under spatial cross-validation"
+  authors:
+    - family-names: "Yakar"
+      given-names: "Funda"
+      orcid: "https://orcid.org/0000-0002-7082-3956"
+  year: 2026
+  journal: "ISPRS Journal of Photogrammetry and Remote Sensing"
+  notes: "Under review. Update volume, pages and DOI on acceptance."
