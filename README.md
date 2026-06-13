@@ -3,6 +3,7 @@
 Code and reproducible pipeline for the study:
 
 https://doi.org/10.5281/zenodo.20683594
+[![DOI](https://zenodo.org/badge/1268689707.svg)](https://doi.org/10.5281/zenodo.20683594)
 
 **Substitute or complement? Benchmarking Earth observation foundation-model embeddings against engineered features for soil and vegetation prediction under spatial cross-validation**
 
