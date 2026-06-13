@@ -68,6 +68,6 @@ If you use this code, please cite the paper (see `CITATION.cff`) and this reposi
 
 Code is released under the MIT License (see `LICENSE`). Third-party data products retain their own licenses; see `DATA.md`.
 
-## Contact
+## ORCID
 
-Funda Yakar — fundayakar@tarimorman.gov.tr — ORCID 0000-0002-7082-3956
+0000-0002-7082-3956
