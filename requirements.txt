@@ -1,0 +1,19 @@
+# Core modelling and analysis
+numpy
+pandas
+scipy
+scikit-learn
+xgboost
+shap
+
+# Plotting
+matplotlib
+
+# Geospatial / Earth Engine extraction
+earthengine-api
+
+# Config
+pyyaml
+
+# Pin exact versions before archiving for full reproducibility, e.g.:
+#   pip freeze > requirements-lock.txt
