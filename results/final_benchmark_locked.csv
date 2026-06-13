@@ -1,0 +1,13 @@
+task,scheme,feature_set,n,R2_mean,R2_std,RMSE_mean,RMSE_std,MAE_mean,MAE_std,ROC_AUC_mean,ROC_AUC_std
+soc,spatial,AEF,772,0.368,0.173,0.548,0.118,0.411,0.078,,
+soc,spatial,Stack,772,0.23,0.162,0.604,0.109,0.47,0.09,,
+soc,spatial,AEF+Stack,772,0.371,0.159,0.545,0.109,0.412,0.075,,
+soc,random,AEF,772,0.443,0.046,0.535,0.085,0.395,0.05,,
+soc,random,Stack,772,0.37,0.095,0.566,0.076,0.432,0.051,,
+soc,random,AEF+Stack,772,0.46,0.052,0.527,0.08,0.39,0.048,,
+veg,spatial,Stack,13832,,,,,,,0.777,0.052
+veg,spatial,AEF,13832,,,,,,,0.78,0.034
+veg,spatial,AEF+Stack,13832,,,,,,,0.821,0.035
+veg,random,Stack,13832,,,,,,,0.832,0.012
+veg,random,AEF,13832,,,,,,,0.769,0.009
+veg,random,AEF+Stack,13832,,,,,,,0.833,0.01
