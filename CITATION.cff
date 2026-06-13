@@ -9,13 +9,17 @@ authors:
     email: "fundayakar@tarimorman.gov.tr"
 license: MIT
 repository-code: "https://github.com/fundayakar/germany-aef-benchmark"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.20683594"
+    description: "Concept DOI: always resolves to the latest version of this repository on Zenodo."
 keywords:
   - Earth observation foundation models
   - AlphaEarth embeddings
   - spatial cross-validation
   - soil organic carbon
   - vegetation stress
-  - SHAP
+  - model interpretability
 preferred-citation:
   type: article
   title: "Substitute or complement? Benchmarking Earth observation foundation-model embeddings against engineered features for soil and vegetation prediction under spatial cross-validation"
@@ -24,5 +28,4 @@ preferred-citation:
       given-names: "Funda"
       orcid: "https://orcid.org/0000-0002-7082-3956"
   year: 2026
-  journal: "ISPRS Journal of Photogrammetry and Remote Sensing"
   notes: "Under review. Update volume, pages and DOI on acceptance."
