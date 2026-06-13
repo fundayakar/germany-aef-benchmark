@@ -2,6 +2,8 @@
 
 Code and reproducible pipeline for the study:
 
+DOI: 10.5281/zenodo.20683595
+
 **Substitute or complement? Benchmarking Earth observation foundation-model embeddings against engineered features for soil and vegetation prediction under spatial cross-validation**
 
 Funda Yakar, Ministry of Agriculture and Forestry, Türkiye.
