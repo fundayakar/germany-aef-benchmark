@@ -1,0 +1,74 @@
+# Addendum to config.yaml — robustness and temporal-transfer analyses added during
+# the IJRS revision. The original config.yaml (locked config for Table 1) is unchanged;
+# this file documents the additional locked settings used for Tables 2-6.
+# Same seed (42) and same base model settings (see config.yaml) throughout.
+
+statistical_testing:
+  # Used for Table 2 (spatial), Table 4 (temporal/spatio-temporal), Table 5 (SOC
+  # sensitivity), and Table 6 (vegetation threshold sensitivity).
+  bootstrap:
+    method: "nonparametric percentile bootstrap, resampling paired fold-level differences"
+    n_resamples: 10000
+    ci: "95% (2.5th-97.5th percentile)"
+    reference: "Efron & Tibshirani (1994)"
+  permutation_test:
+    method: "exact two-sided sign-flip permutation test"
+    n_permutations_10_folds: 1024   # 2^10, spatial CV (Table 2, Table 5)
+    n_permutations_7_folds: 128     # 2^7, LOYO (Table 4)
+    reference: "Good (2000)"
+  region_year_blocked_ci:
+    method: "year-clustered bootstrap (resample years with replacement, retain all spatial blocks within a resampled year)"
+    n_resamples: 10000
+    rationale: "folds sharing a year are not independent replicates"
+
+soc_sensitivity:
+  # Table 5. Spatial blocks are NOT recomputed: the same block assignment from the
+  # main Table 1 analysis (k-means, seed 42, n_blocks=10) is reused, with only the
+  # target points dropped from the fold splits. This isolates the effect of removing
+  # points from any change in fold structure.
+  exclusion_1:
+    name: "high-OC / organic-rich"
+    threshold: "Lucas_OC > 120 g/kg"
+    n_excluded: 30
+    pct_excluded: 3.9
+  exclusion_2:
+    name: "statistical outliers (Tukey's rule on log1p(Lucas_OC))"
+    threshold: "Lucas_OC > 169.1 g/kg"
+    tukey_fence: "Q3 + 1.5*IQR on log1p scale"
+    n_excluded: 20
+    pct_excluded: 2.6
+  note: >
+    An earlier version recomputed k-means blocks on each trimmed sample
+    (src/soc_sensitivity/soc_sensitivity_recomputed_blocks_NOT_USED_IN_MANUSCRIPT.py).
+    This was superseded by the fixed-block version for a cleaner design and is kept
+    only for reference; Table 5 in the manuscript uses the fixed-block results.
+
+vegetation_threshold_sensitivity:
+  # Table 6. Same spatial blocks and model config as the main vegetation analysis;
+  # only the stress-label z-score threshold changes.
+  thresholds_tested: [-0.5, -1.0, -1.5]
+  main_analysis_threshold: -1.0
+  prevalence_by_threshold:
+    "-0.5": 0.347
+    "-1.0": 0.198
+    "-1.5": 0.079
+
+temporal_transfer:
+  # Table 3, Table 4. Vegetation-stress task only.
+  years: [2018, 2019, 2020, 2021, 2022, 2023, 2024]
+  loyo:
+    design: "leave-one-year-out; train on 6 years, test on 1, for each of 7 years"
+    metrics_reported: ["ROC_AUC (per-year and pooled)", "PR_AUC (average precision)", "Brier score"]
+    baselines_tested_in_diagnostics: ["Stack", "AEF", "AEF+Stack", "LC-only", "Climate-anomaly-only"]
+    note: >
+      LC-only and Climate-anomaly-only are diagnostic baselines (see
+      src/temporal_transfer/loyo_diagnostics.py) used to interpret the AEF pooled-vs-
+      yearwise AUC divergence; they are not part of the three main feature sets and
+      are not reported in Table 4.
+  region_year_blocked:
+    design: >
+      test fold = (year Y, spatial block B); training excludes ALL rows where
+      year == Y (any block) AND ALL rows where block == B (any year), i.e. the
+      model never sees the test year in any region or the test region in any year.
+    n_folds: 70   # 7 years x 10 spatial blocks
+    spatial_blocks: "same k-means blocks (seed 42, n_blocks=10) as the main spatial-CV analysis"
