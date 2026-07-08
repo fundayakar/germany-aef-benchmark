@@ -1,0 +1,7 @@
+task,comparison,metric,n_folds,mean_diff,ci95_lo,ci95_hi,ci_excludes_zero,perm_p,paired_t_p,wilcoxon_p
+soc,AEF - Stack,R2,10,0.1373,0.0243,0.2387,True,0.0449,0.0405,0.0371
+soc,AEF+Stack - AEF,R2,10,0.0037,-0.0334,0.0375,False,0.8066,0.8506,0.7695
+soc,AEF+Stack - Stack,R2,10,0.141,0.0571,0.213,True,0.0137,0.0077,0.0195
+veg,AEF - Stack,ROC_AUC,10,0.0003,-0.0241,0.0243,False,0.9824,0.9846,1.0
+veg,AEF+Stack - AEF,ROC_AUC,10,0.0418,0.026,0.0577,True,0.0039,0.0008,0.0039
+veg,AEF+Stack - Stack,ROC_AUC,10,0.0421,0.0299,0.0548,True,0.002,0.0001,0.002

@@ -1,0 +1,7 @@
+comparison,mean_diff,ci95_lo,ci95_hi,ci_excludes_zero,perm_p,scenario
+AEF - Stack,0.1583,0.0181,0.3044,True,0.0801,"Excl. high-OC (OC>120 g/kg), fixed blocks"
+AEF+Stack - AEF,-0.0025,-0.0415,0.0341,False,0.9082,"Excl. high-OC (OC>120 g/kg), fixed blocks"
+AEF+Stack - Stack,0.1558,0.051,0.266,True,0.0176,"Excl. high-OC (OC>120 g/kg), fixed blocks"
+AEF - Stack,0.1394,0.0225,0.2651,True,0.0645,"Excl. statistical outliers (Tukey, OC>169.1 g/kg), fixed blocks"
+AEF+Stack - AEF,0.0073,-0.0355,0.0456,False,0.6543,"Excl. statistical outliers (Tukey, OC>169.1 g/kg), fixed blocks"
+AEF+Stack - Stack,0.1468,0.0602,0.246,True,0.0117,"Excl. statistical outliers (Tukey, OC>169.1 g/kg), fixed blocks"

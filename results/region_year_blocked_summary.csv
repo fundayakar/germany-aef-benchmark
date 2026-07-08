@@ -1,0 +1,6 @@
+,ROC_AUC,ROC_AUC,PR_AUC,PR_AUC,Brier,Brier
+,mean,std,mean,std,mean,std
+feature_set,,,,,,
+AEF,0.488,0.112,0.22,0.232,0.16,0.14
+AEF+Stack,0.507,0.13,0.223,0.227,0.189,0.155
+Stack,0.488,0.122,0.22,0.235,0.2,0.161

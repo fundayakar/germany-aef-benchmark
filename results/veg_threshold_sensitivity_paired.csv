@@ -1,0 +1,7 @@
+comparison,mean_diff,ci95_lo,ci95_hi,ci_excludes_zero,perm_p,threshold
+AEF - Stack,-0.0138,-0.0401,0.0112,False,0.3496,-0.5
+AEF+Stack - AEF,0.0537,0.0359,0.0738,True,0.002,-0.5
+AEF+Stack - Stack,0.0399,0.0281,0.0519,True,0.002,-0.5
+AEF - Stack,0.0069,-0.0155,0.0286,False,0.5703,-1.5
+AEF+Stack - AEF,0.0318,0.0225,0.0404,True,0.002,-1.5
+AEF+Stack - Stack,0.0388,0.0222,0.0556,True,0.0039,-1.5

@@ -1,0 +1,7 @@
+feature_set,mean,std,scenario,n
+AEF,0.353,0.181,"Excl. high-OC (OC>120 g/kg), fixed blocks",742
+AEF+Stack,0.35,0.161,"Excl. high-OC (OC>120 g/kg), fixed blocks",742
+Stack,0.194,0.207,"Excl. high-OC (OC>120 g/kg), fixed blocks",742
+AEF,0.37,0.164,"Excl. statistical outliers (Tukey, OC>169.1 g/kg), fixed blocks",752
+AEF+Stack,0.377,0.158,"Excl. statistical outliers (Tukey, OC>169.1 g/kg), fixed blocks",752
+Stack,0.231,0.189,"Excl. statistical outliers (Tukey, OC>169.1 g/kg), fixed blocks",752

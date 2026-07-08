@@ -1,0 +1,4 @@
+feature_set,mean_AUC,AUC_CI_lo,AUC_CI_hi,CI_excludes_0.5,mean_PRAUC,PRAUC_CI_lo,PRAUC_CI_hi,CI_excludes_noskill_baseline
+Stack,0.4881,0.4527,0.5214,False,0.2204,0.0773,0.3695,False
+AEF,0.4882,0.4499,0.5227,False,0.2203,0.0807,0.3637,False
+AEF+Stack,0.5071,0.4579,0.5568,False,0.223,0.0839,0.3669,False

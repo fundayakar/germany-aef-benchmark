@@ -1,0 +1,6 @@
+feature_set,pearson_r_meanprob_vs_prevalence,p_value
+Stack,-0.21,0.6512
+AEF,0.794,0.033
+AEF+Stack,0.015,0.9749
+LC-only,-1.0,0.0
+Climate-anomaly-only,0.065,0.8907

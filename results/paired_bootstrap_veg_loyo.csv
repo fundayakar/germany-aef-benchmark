@@ -1,0 +1,4 @@
+task,comparison,metric,n_folds,mean_diff,ci95_lo,ci95_hi,ci_excludes_zero,perm_p,paired_t_p,wilcoxon_p
+veg_loyo,AEF - Stack,ROC_AUC,7,-0.0741,-0.1429,0.0017,False,0.125,0.1088,0.1562
+veg_loyo,AEF+Stack - AEF,ROC_AUC,7,0.0539,-0.0042,0.1206,False,0.1719,0.1692,0.1562
+veg_loyo,AEF+Stack - Stack,ROC_AUC,7,-0.0202,-0.0528,0.0192,False,0.3594,0.3606,0.375

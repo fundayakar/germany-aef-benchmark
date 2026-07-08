@@ -1,0 +1,10 @@
+feature_set,mean,std,scenario,n
+AEF,0.368,0.173,Full sample,772
+AEF+Stack,0.371,0.159,Full sample,772
+Stack,0.23,0.162,Full sample,772
+AEF,0.341,0.183,Excl. organic-rich (OC>120 g/kg),742
+AEF+Stack,0.347,0.161,Excl. organic-rich (OC>120 g/kg),742
+Stack,0.197,0.2,Excl. organic-rich (OC>120 g/kg),742
+AEF,0.388,0.154,"Excl. statistical outliers (Tukey, OC>169.1 g/kg)",752
+AEF+Stack,0.392,0.155,"Excl. statistical outliers (Tukey, OC>169.1 g/kg)",752
+Stack,0.244,0.216,"Excl. statistical outliers (Tukey, OC>169.1 g/kg)",752
