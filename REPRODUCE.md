@@ -1,6 +1,6 @@
 # Reproducing the robustness and temporal-transfer analyses
 
-This document maps each addition from the IJRS revision (statistical robustness,
+This document maps each additions including (statistical robustness,
 SOC and vegetation sensitivity checks, temporal and spatio-temporal transfer) to
 the script and result files that produced it. It complements, and does not
 replace, `DATA.md` (raw data sources) and `config.yaml` (the locked config for the
