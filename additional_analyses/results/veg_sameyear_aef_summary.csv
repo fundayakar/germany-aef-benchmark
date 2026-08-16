@@ -1,0 +1,7 @@
+scheme,feature_set,ROC_AUC_mean,ROC_AUC_std,PR_AUC_mean,PR_AUC_std
+random,AEF_sameyear,0.782,0.008,0.503,0.02
+random,Stack,0.833,0.012,0.558,0.026
+random,AEF_sameyear+Stack,0.837,0.011,0.566,0.028
+spatial,AEF_sameyear,0.792,0.036,0.515,0.069
+spatial,Stack,0.779,0.051,0.46,0.088
+spatial,AEF_sameyear+Stack,0.824,0.04,0.542,0.067

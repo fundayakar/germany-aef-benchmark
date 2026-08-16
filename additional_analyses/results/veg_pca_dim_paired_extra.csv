@@ -1,0 +1,5 @@
+metric,comparison,n_folds,mean_diff,ci95_lo,ci95_hi,ci_excludes_zero,perm_p
+ROC_AUC,AEF-PCA5+Stack-5 - Stack-5,10,0.0128,0.0064,0.0191,True,0.0078
+ROC_AUC,AEF-64 - AEF-PCA5,10,0.2172,0.1925,0.2413,True,0.002
+PR_AUC,AEF-PCA5+Stack-5 - Stack-5,10,0.0119,0.0037,0.0205,True,0.0312
+PR_AUC,AEF-64 - AEF-PCA5,10,0.2361,0.199,0.2698,True,0.002

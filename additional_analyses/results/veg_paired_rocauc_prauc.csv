@@ -1,0 +1,7 @@
+metric,comparison,n_folds,mean_diff,ci95_lo,ci95_hi,ci_excludes_zero,perm_p
+ROC_AUC,AEF - Stack,10,0.0003,-0.0239,0.0248,False,0.9824
+ROC_AUC,AEF+Stack - AEF,10,0.0418,0.026,0.0574,True,0.0039
+ROC_AUC,AEF+Stack - Stack,10,0.0421,0.0297,0.0548,True,0.002
+PR_AUC,AEF - Stack,10,0.0174,-0.0299,0.0667,False,0.5078
+PR_AUC,AEF+Stack - AEF,10,0.0403,0.0105,0.0668,True,0.0371
+PR_AUC,AEF+Stack - Stack,10,0.0576,0.0332,0.0846,True,0.0039

@@ -1,0 +1,5 @@
+metric,comparison,mean_diff,ci95_lo,ci95_hi,ci_excludes_zero,perm_p
+ROC_AUC,AEF-PCA5 - Stack-5,-0.217,-0.2548,-0.1811,True,0.002
+ROC_AUC,AEF-PCA5+Stack-5 - AEF-PCA5,0.2298,0.1953,0.2676,True,0.002
+PR_AUC,AEF-PCA5 - Stack-5,-0.2188,-0.2762,-0.1685,True,0.002
+PR_AUC,AEF-PCA5+Stack-5 - AEF-PCA5,0.2307,0.1825,0.2853,True,0.002
