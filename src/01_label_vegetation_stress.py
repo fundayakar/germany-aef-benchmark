@@ -17,8 +17,8 @@ Steps:
      year's embedding, suffix "_prev"). This avoids circularity, since the
      same-year embedding would encode the growing-season surface state from
      which the NDVI-based label is derived. This drops the first year (2017)
-     per point, leaving 2018-2024. After the NDVI/climate completeness check retains
-     1,976 locations, the modelling panel contains 1,976 x 7 = 13,832 point-years.
+     per point, leaving 2018-2024. After the NDVI/climate completeness check,
+     1,976 locations remain, giving 1,976 x 7 = 13,832 point-years.
 
 Output: veg_labeled.csv
   columns: id, lon, lat, lc, year, gs_ndvi,
