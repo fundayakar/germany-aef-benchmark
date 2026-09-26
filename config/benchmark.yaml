@@ -1,0 +1,43 @@
+# Fixed configuration for the primary benchmark.
+
+seed: 42
+
+cross_validation:
+  n_blocks: 10
+  spatial_blocks: "k-means on point coordinates; computed once per task and reused across feature sets"
+  random_cv: "10-fold KFold, shuffle=true, random_state=42"
+  vegetation_grouping: "blocks assigned at location level so all years of a point remain in the same fold"
+
+models:
+  random_forest:
+    used_for: "soil organic carbon regression"
+    n_estimators: 300
+    max_features: 1.0
+    min_samples_leaf: 1
+    random_state: 42
+    n_jobs: -1
+  xgboost:
+    used_for: "vegetation-stress classification"
+    n_estimators: 300
+    max_depth: 5
+    learning_rate: 0.05
+    subsample: 0.8
+    colsample_bytree: 0.8
+    tree_method: hist
+    eval_metric: logloss
+    random_state: 42
+    n_jobs: -1
+
+feature_sets: [aef, stack, aef_plus_stack]
+
+engineered_stack_soc:
+  [B2, B3, B4, B8, B11, B12, NDVI, VV, VH, VV_div_VH, VV_minus_VH, aspect, elev, slope, sm_annual, t2m_summer, tp_winter]
+
+engineered_stack_vegetation:
+  [precip_winter, precip_spring, temp_spring, sm_winter, sm_spring]
+
+embedding:
+  source: "GOOGLE/SATELLITE_EMBEDDING/V1/ANNUAL"
+  dimensions: 64
+  soc_year: 2018
+  vegetation_year_offset: -1
