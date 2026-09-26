@@ -110,7 +110,8 @@ Supplementary diagnostic analyses are organized by scientific purpose under [`an
 | Figures 2-4 | `figures/` and corresponding `results/` files |
 | Table 3 | `src/soc_sensitivity_fixedblocks.py`; `results/soc_sensitivity_fixedblocks_*` |
 | Table 4 | `src/veg_threshold_sensitivity.py`; `results/veg_threshold_sensitivity_*` |
-| Table 6 / temporal diagnostics | `analyses/temporal_transfer/` |
+| Table 5 / yearly stress prevalence | `results/veg_yearly_prevalence.csv`; archived full-period temporal diagnostic in `analyses/archive/full_period_temporal/` |
+| Table 6 / corrected temporal diagnostics | `analyses/temporal_transfer/` |
 | Supplementary Table S1 | `analyses/spatial_block_sensitivity/` |
 | Supplementary Table S2 | `analyses/dimensionality_sensitivity/` |
 | Supplementary Table S3 | `analyses/same_year_embedding_diagnostic/` |
