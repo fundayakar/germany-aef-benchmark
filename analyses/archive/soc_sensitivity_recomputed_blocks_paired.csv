@@ -1,0 +1,10 @@
+comparison,mean_diff,ci95_lo,ci95_hi,ci_excludes_zero,perm_p,scenario
+AEF - Stack,0.1373,0.0243,0.2387,True,0.0449,Full sample
+AEF+Stack - AEF,0.0037,-0.0334,0.0375,False,0.8066,Full sample
+AEF+Stack - Stack,0.141,0.0571,0.213,True,0.0137,Full sample
+AEF - Stack,0.144,0.0093,0.2788,True,0.082,Excl. organic-rich (OC>120 g/kg)
+AEF+Stack - AEF,0.0064,-0.0286,0.0433,False,0.6543,Excl. organic-rich (OC>120 g/kg)
+AEF+Stack - Stack,0.1504,0.0489,0.2556,True,0.0195,Excl. organic-rich (OC>120 g/kg)
+AEF - Stack,0.1439,0.0128,0.2856,True,0.082,"Excl. statistical outliers (Tukey, OC>169.1 g/kg)"
+AEF+Stack - AEF,0.004,-0.0411,0.0413,False,0.8008,"Excl. statistical outliers (Tukey, OC>169.1 g/kg)"
+AEF+Stack - Stack,0.1479,0.0482,0.2573,True,0.0215,"Excl. statistical outliers (Tukey, OC>169.1 g/kg)"
