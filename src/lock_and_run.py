@@ -1,7 +1,7 @@
 """
 Locked benchmark: one fixed config per learner; regenerates all reported numbers.
 Usage: python lock_and_run.py {soc_spatial|soc_random|veg_spatial|veg_random}
-Appends results to /mnt/user-data/outputs/final_benchmark_locked.csv
+Writes results to results/final_benchmark_locked.csv
 """
 import sys, os, json
 from pathlib import Path
