@@ -4,6 +4,7 @@ Usage: python lock_and_run.py {soc_spatial|soc_random|veg_spatial|veg_random}
 Appends results to /mnt/user-data/outputs/final_benchmark_locked.csv
 """
 import sys, os, json
+from pathlib import Path
 import numpy as np, pandas as pd
 from sklearn.cluster import KMeans
 from sklearn.model_selection import GroupKFold, KFold
@@ -14,13 +15,17 @@ import xgboost as xgb
 # ---- LOCKED CONFIG ----
 SEED = 42
 N_BLOCKS = 10
-RF_PARAMS  = dict(n_estimators=300, random_state=SEED, n_jobs=-1)
+RF_PARAMS  = dict(n_estimators=300, max_features=1.0, min_samples_leaf=1, random_state=SEED, n_jobs=-1)
 XGB_PARAMS = dict(n_estimators=300, max_depth=5, learning_rate=0.05, subsample=0.8,
                   colsample_bytree=0.8, tree_method="hist", random_state=SEED,
                   n_jobs=-1, eval_metric="logloss")
-SOC_PATH = "/mnt/user-data/outputs/SOC_master_aligned.csv"
-VEG_PATH = "/mnt/user-data/uploads/veg_stress_pointlevel.csv"
-OUT = "/mnt/user-data/outputs/final_benchmark_locked.csv"
+ROOT = Path(__file__).resolve().parents[1]
+DATA_DIR = ROOT / "data"
+RESULTS_DIR = ROOT / "results"
+RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+SOC_PATH = Path(os.getenv("SOC_DATA", DATA_DIR / "SOC_master_aligned.csv"))
+VEG_PATH = Path(os.getenv("VEG_DATA", DATA_DIR / "veg_stress_pointlevel.csv"))
+OUT = Path(os.getenv("BENCHMARK_OUT", RESULTS_DIR / "final_benchmark_locked.csv"))
 BANDS = [f"A{i:02d}" for i in range(64)]
 
 def blocks(coords):
@@ -82,8 +87,11 @@ def run(task, scheme):
         rows.append(rec)
         print(f"[{task}/{scheme}] {name:10s} " + " ".join(f"{c}={fd[c].mean():.3f}±{fd[c].std():.3f}" for c in fd.columns))
     out = pd.DataFrame(rows)
-    if os.path.exists(OUT):
-        out = pd.concat([pd.read_csv(OUT), out], ignore_index=True)
+    if OUT.exists():
+        old = pd.read_csv(OUT)
+        if {'task','scheme'}.issubset(old.columns):
+            old = old[~((old['task'] == task) & (old['scheme'] == scheme))]
+        out = pd.concat([old, out], ignore_index=True)
     out.to_csv(OUT, index=False)
 
 if __name__ == '__main__':
