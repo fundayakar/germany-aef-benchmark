@@ -1,0 +1,15 @@
+# Local modelling data
+data/
+
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Notebook / IDE / OS artefacts
+.ipynb_checkpoints/
+.DS_Store
+.vscode/
+.idea/
