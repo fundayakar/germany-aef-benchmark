@@ -5,6 +5,7 @@ those fixed folds (rather than recomputing k-means blocks on each trimmed
 sample, which would confound "removing points" with "changing the fold
 structure").
 """
+from pathlib import Path
 import numpy as np, pandas as pd
 from sklearn.cluster import KMeans
 from sklearn.model_selection import GroupKFold
@@ -13,6 +14,10 @@ from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 from scipy import stats
 from itertools import product
 
+ROOT = Path(__file__).resolve().parents[1]
+DATA_DIR = ROOT / "data"
+RESULTS_DIR = ROOT / "results"
+
 SEED = 42
 N_BLOCKS = 10
 RF_PARAMS = dict(n_estimators=300, random_state=SEED, n_jobs=-1)
@@ -20,7 +25,7 @@ STACK = ['B2','B3','B4','B8','B11','B12','NDVI','VV','VH','VV_div_VH','VV_minus_
          'aspect','elev','slope','sm_annual','t2m_summer','tp_winter']
 BANDS = [f"A{i:02d}" for i in range(64)]
 
-full = pd.read_csv("SOC_master_aligned.csv")
+full = pd.read_csv(DATA_DIR / "SOC_master_aligned.csv")
 # blocks computed ONCE on the full sample -- identical seed/procedure to the main analysis
 full['blk'] = KMeans(n_clusters=N_BLOCKS, random_state=SEED, n_init=10).fit_predict(full[['lon','lat']].values)
 print("Full sample n:", len(full))
@@ -84,8 +89,8 @@ for scen_name, scen_df in scenarios.items():
 
 summary_df = pd.concat(all_summary, ignore_index=True)
 paired_df = pd.DataFrame(all_paired)
-summary_df.to_csv("soc_sensitivity_fixedblocks_summary.csv", index=False)
-paired_df.to_csv("soc_sensitivity_fixedblocks_paired.csv", index=False)
+summary_df.to_csv(RESULTS_DIR / "soc_sensitivity_fixedblocks_summary.csv", index=False)
+paired_df.to_csv(RESULTS_DIR / "soc_sensitivity_fixedblocks_paired.csv", index=False)
 
 print("\n\n=== Paired comparisons (fixed-block version) ===")
 print(paired_df[['scenario','comparison','mean_diff','ci95_lo','ci95_hi','ci_excludes_zero','perm_p']].to_string(index=False))
