@@ -1,0 +1,4 @@
+feature_set,mean_AUC,sd_AUC,ci95_lo,ci95_hi,excludes_0.5,perm_p
+AEF,0.537,0.0593,0.4909,0.5787,False,0.1562
+Stack,0.5143,0.0739,0.4589,0.5654,False,0.6562
+AEF+Stack,0.561,0.0954,0.495,0.6359,False,0.1719
