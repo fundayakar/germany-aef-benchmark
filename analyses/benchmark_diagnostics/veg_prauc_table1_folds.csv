@@ -1,0 +1,7 @@
+scheme,feature_set,n,ROC_AUC_mean,ROC_AUC_std,PR_AUC_mean,PR_AUC_std,no_skill_PR_AUC_baseline
+random,AEF,13832,0.769,0.011,0.472,0.018,0.1982
+random,Stack,13832,0.833,0.012,0.558,0.026,0.1982
+random,AEF+Stack,13832,0.835,0.009,0.553,0.024,0.1982
+spatial,AEF,13832,0.779,0.033,0.477,0.06,0.1982
+spatial,Stack,13832,0.779,0.051,0.46,0.088,0.1982
+spatial,AEF+Stack,13832,0.821,0.034,0.518,0.069,0.1982
