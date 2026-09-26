@@ -15,6 +15,7 @@ Feature sets:
   AEF-PCA5+Stack-5 : PCA-reduced AlphaEarth (5) + climate stack (5)
   AEF-64+Stack-5   : raw AlphaEarth (64) + climate stack (5), as in Table 1
 """
+from pathlib import Path
 import numpy as np, pandas as pd
 from sklearn.cluster import KMeans
 from sklearn.model_selection import GroupKFold
@@ -30,7 +31,10 @@ N_BLOCKS = 10
 XGB_PARAMS = dict(n_estimators=300, max_depth=5, learning_rate=0.05, subsample=0.8,
                   colsample_bytree=0.8, tree_method="hist", random_state=SEED,
                   n_jobs=-1, eval_metric="logloss")
-VEG_PATH = "veg_stress_pointlevel.csv"
+ROOT = Path(__file__).resolve().parents[2]
+DATA_DIR = ROOT / "data"
+OUT_DIR = Path(__file__).resolve().parent
+VEG_PATH = DATA_DIR / "veg_stress_pointlevel.csv"
 BANDS = [f"A{i:02d}" for i in range(64)]
 CLIM = ['precip_winter', 'precip_spring', 'temp_spring', 'sm_winter', 'sm_spring']
 PCA_N = 5
@@ -94,12 +98,12 @@ for k, (tr, te) in enumerate(folds):
     print(f"fold {k}: PCA(5) explained variance ratio = {evr:.4f}")
 
 fold_df = pd.DataFrame(fold_rows)
-fold_df.to_csv("veg_pca_dim_fold_level.csv", index=False)
+fold_df.to_csv(OUT_DIR / "veg_pca_dim_fold_level.csv", index=False)
 
 order = ['Stack-5', 'AEF-64', 'AEF-PCA5', 'AEF-PCA5+Stack-5', 'AEF-64+Stack-5']
 summary = fold_df.groupby('feature_set')[['ROC_AUC', 'PR_AUC']].agg(['mean', 'std']).round(4)
 summary = summary.reindex(order)
-summary.to_csv("veg_pca_dim_summary.csv")
+summary.to_csv(OUT_DIR / "veg_pca_dim_summary.csv")
 print("\n=== Spatial-CV ROC-AUC / PR-AUC by feature set (mean +/- SD over 10 folds) ===")
 print(summary)
 
@@ -130,6 +134,6 @@ for metric in ['ROC_AUC', 'PR_AUC']:
     for a, b in pairs:
         paired_rows.append(paired_stats(piv[a].values, piv[b].values, a, b, metric))
 paired_df = pd.DataFrame(paired_rows)
-paired_df.to_csv("veg_pca_dim_paired.csv", index=False)
+paired_df.to_csv(OUT_DIR / "veg_pca_dim_paired.csv", index=False)
 print("\n=== Paired comparisons ===")
 print(paired_df.to_string(index=False))
