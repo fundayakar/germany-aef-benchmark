@@ -8,6 +8,7 @@ Sanity-checks against the already-reported aggregate numbers
 (final_benchmark_locked.csv / benchmark_veg_results.csv) before anything
 else is trusted downstream.
 """
+from pathlib import Path
 import numpy as np, pandas as pd
 from sklearn.cluster import KMeans
 from sklearn.model_selection import GroupKFold
@@ -21,8 +22,11 @@ RF_PARAMS  = dict(n_estimators=300, random_state=SEED, n_jobs=-1)
 XGB_PARAMS = dict(n_estimators=300, max_depth=5, learning_rate=0.05, subsample=0.8,
                   colsample_bytree=0.8, tree_method="hist", random_state=SEED,
                   n_jobs=-1, eval_metric="logloss")
-SOC_PATH = "SOC_master_aligned.csv"
-VEG_PATH = "veg_stress_pointlevel.csv"
+ROOT = Path(__file__).resolve().parents[1]
+DATA_DIR = ROOT / "data"
+RESULTS_DIR = ROOT / "results"
+SOC_PATH = DATA_DIR / "SOC_master_aligned.csv"
+VEG_PATH = DATA_DIR / "veg_stress_pointlevel.csv"
 BANDS = [f"A{i:02d}" for i in range(64)]
 
 def blocks(coords):
@@ -99,7 +103,7 @@ def run_spatial(task):
     print(f"\n=== {task} spatial-CV reproduction check ({metric_col} mean/std across folds) ===")
     print(check)
 
-    fold_df.to_csv(f"fold_level_{task}_spatial.csv", index=False)
+    fold_df.to_csv(RESULTS_DIR / f"fold_level_{task}_spatial.csv", index=False)
 
     # point-level out-of-fold predictions
     base_cols = ['blk'] + ([id_col] if id_col else ['id','year'])
@@ -107,7 +111,7 @@ def run_spatial(task):
     oof_df['y_true'] = y
     for name, arr in oof_preds.items():
         oof_df[f'pred_{name}'] = arr
-    oof_df.to_csv(f"oof_predictions_{task}_spatial.csv", index=False)
+    oof_df.to_csv(RESULTS_DIR / f"oof_predictions_{task}_spatial.csv", index=False)
 
     return fold_df, oof_df
 
