@@ -1,3 +1,4 @@
+from pathlib import Path
 import numpy as np, pandas as pd
 from sklearn.cluster import KMeans
 from sklearn.model_selection import GroupKFold
@@ -6,12 +7,16 @@ from scipy import stats
 from itertools import product
 import xgboost as xgb
 
+ROOT = Path(__file__).resolve().parents[1]
+DATA_DIR = ROOT / "data"
+RESULTS_DIR = ROOT / "results"
+
 SEED = 42
 N_BLOCKS = 10
 XGB_PARAMS = dict(n_estimators=300, max_depth=5, learning_rate=0.05, subsample=0.8,
                   colsample_bytree=0.8, tree_method="hist", random_state=SEED,
                   n_jobs=-1, eval_metric="logloss")
-VEG_PATH = "veg_stress_pointlevel.csv"
+VEG_PATH = DATA_DIR / "veg_stress_pointlevel.csv"
 BANDS = [f"A{i:02d}" for i in range(64)]
 CLIM = ['precip_winter','precip_spring','temp_spring','sm_winter','sm_spring']
 
@@ -88,9 +93,9 @@ for thr in thresholds:
 summary_df = pd.concat(all_summary, ignore_index=True)
 paired_df = pd.DataFrame(all_paired)
 prev_df = pd.DataFrame(prevalence_rows)
-summary_df.to_csv("veg_threshold_sensitivity_summary.csv", index=False)
-paired_df.to_csv("veg_threshold_sensitivity_paired.csv", index=False)
-prev_df.to_csv("veg_threshold_sensitivity_prevalence.csv", index=False)
+summary_df.to_csv(RESULTS_DIR / "veg_threshold_sensitivity_summary.csv", index=False)
+paired_df.to_csv(RESULTS_DIR / "veg_threshold_sensitivity_paired.csv", index=False)
+prev_df.to_csv(RESULTS_DIR / "veg_threshold_sensitivity_prevalence.csv", index=False)
 
 print("\n\n=== Threshold sensitivity: paired comparisons ===")
 print(paired_df[['threshold','comparison','mean_diff','ci95_lo','ci95_hi','ci_excludes_zero','perm_p']].to_string(index=False))
