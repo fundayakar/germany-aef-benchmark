@@ -11,6 +11,7 @@ Fold structure is unchanged from the original region-year-blocked design:
 train excludes BOTH the test year y (any block) AND the test block b (any
 year); test = (year == y) AND (block == b). 70 folds (7 years x 10 blocks).
 """
+from pathlib import Path
 import numpy as np, pandas as pd
 from sklearn.cluster import KMeans
 from sklearn.metrics import roc_auc_score, average_precision_score
@@ -21,7 +22,10 @@ N_BLOCKS = 10
 XGB_PARAMS = dict(n_estimators=300, max_depth=5, learning_rate=0.05, subsample=0.8,
                   colsample_bytree=0.8, tree_method="hist", random_state=SEED,
                   n_jobs=-1, eval_metric="logloss")
-VEG_PATH = "veg_stress_pointlevel.csv"
+ROOT = Path(__file__).resolve().parents[2]
+DATA_DIR = ROOT / "data"
+OUT_DIR = Path(__file__).resolve().parent
+VEG_PATH = DATA_DIR / "veg_stress_pointlevel.csv"
 BANDS = [f"A{i:02d}" for i in range(64)]
 CLIM = ['precip_winter', 'precip_spring', 'temp_spring', 'sm_winter', 'sm_spring']
 MODELING_YEARS = list(range(2018, 2025))
@@ -89,12 +93,12 @@ for name, cols in sets.items():
     print(f"[{name}] region-year blocked (7-yr baseline) done.")
 
 reg_df = pd.DataFrame(rows)
-reg_df.to_csv("region_year_blocked_trainonly_folds.csv", index=False)
+reg_df.to_csv(OUT_DIR / "region_year_blocked_trainonly_folds.csv", index=False)
 
 summary = reg_df.groupby('feature_set')[['ROC_AUC', 'PR_AUC']].agg(['mean', 'std']).round(4)
 print("\n=== Region-year blocked (7-yr test-year-excluded baseline): mean/std over folds ===")
 print(summary)
-summary.to_csv("region_year_blocked_trainonly_summary.csv")
+summary.to_csv(OUT_DIR / "region_year_blocked_trainonly_summary.csv")
 
 # ---- year-clustered bootstrap CI vs chance (0.5) / no-skill PR-AUC baseline ----
 RNG = np.random.default_rng(42)
@@ -121,6 +125,6 @@ for name in sets:
                      'PRAUC_CI_hi': round(pr_hi, 4),
                      'CI_excludes_noskill': bool(pr_lo > overall_prevalence or pr_hi < overall_prevalence)})
 ci_df = pd.DataFrame(ci_rows)
-ci_df.to_csv("region_year_blocked_trainonly_CI.csv", index=False)
+ci_df.to_csv(OUT_DIR / "region_year_blocked_trainonly_CI.csv", index=False)
 print("\n=== Year-clustered bootstrap CI vs chance/no-skill ===")
 print(ci_df.to_string(index=False))

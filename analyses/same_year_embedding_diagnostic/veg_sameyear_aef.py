@@ -10,6 +10,7 @@ growing-season surface state that is itself used to derive the MODIS NDVI stress
 label, this is explicitly an upper-bound / circularity-prone diagnostic, not an
 alternative main design.
 """
+from pathlib import Path
 import numpy as np, pandas as pd
 from sklearn.cluster import KMeans
 from sklearn.model_selection import GroupKFold, KFold
@@ -23,7 +24,10 @@ N_BLOCKS = 10
 XGB_PARAMS = dict(n_estimators=300, max_depth=5, learning_rate=0.05, subsample=0.8,
                   colsample_bytree=0.8, tree_method="hist", random_state=SEED,
                   n_jobs=-1, eval_metric="logloss")
-VEG_PATH = "veg_stress_pointlevel.csv"
+ROOT = Path(__file__).resolve().parents[2]
+DATA_DIR = ROOT / "data"
+OUT_DIR = Path(__file__).resolve().parent
+VEG_PATH = DATA_DIR / "veg_stress_pointlevel.csv"
 BANDS = [f"A{i:02d}" for i in range(64)]
 CLIM = ['precip_winter','precip_spring','temp_spring','sm_winter','sm_spring']
 
@@ -105,7 +109,7 @@ summary_df = pd.DataFrame(summary_rows)
 order = {'AEF_sameyear': 0, 'Stack': 1, 'AEF_sameyear+Stack': 2}
 summary_df['_o'] = summary_df['feature_set'].map(order)
 summary_df = summary_df.sort_values(['scheme','_o']).drop(columns='_o').reset_index(drop=True)
-summary_df.to_csv("veg_sameyear_aef_summary.csv", index=False)
+summary_df.to_csv(OUT_DIR / "veg_sameyear_aef_summary.csv", index=False)
 
 # paired stats, spatial scheme only (as requested, "at least for spatial")
 pairs = [('AEF_sameyear+Stack', 'AEF_sameyear'), ('AEF_sameyear+Stack', 'Stack')]
@@ -116,7 +120,7 @@ for metric in ['ROC_AUC', 'PR_AUC']:
     for a, b in pairs:
         paired_rows.append(paired_stats(piv[a].values, piv[b].values, a, b, metric))
 paired_df = pd.DataFrame(paired_rows)
-paired_df.to_csv("veg_sameyear_aef_paired.csv", index=False)
+paired_df.to_csv(OUT_DIR / "veg_sameyear_aef_paired.csv", index=False)
 
 print("\n=== Summary table ===")
 print(summary_df.to_string(index=False))

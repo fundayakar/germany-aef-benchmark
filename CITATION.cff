@@ -1,6 +1,6 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite both the article and the archived repository."
-title: "germany-aef-benchmark: AlphaEarth embeddings versus engineered features for soil and vegetation prediction under spatial cross-validation"
+message: "If you use this software or analysis package, please cite the associated article and archived repository."
+title: "germany-aef-benchmark: AlphaEarth embeddings versus engineered predictors for soil organic carbon and vegetation-stress prediction"
 authors:
   - family-names: "Yakar"
     given-names: "Funda"
@@ -12,7 +12,7 @@ repository-code: "https://github.com/fundayakar/germany-aef-benchmark"
 identifiers:
   - type: doi
     value: "10.5281/zenodo.20683594"
-    description: "Concept DOI: always resolves to the latest version of this repository on Zenodo."
+    description: "Zenodo concept DOI; resolves to the latest archived version of this repository."
 keywords:
   - Earth observation foundation models
   - AlphaEarth embeddings
@@ -22,10 +22,10 @@ keywords:
   - model interpretability
 preferred-citation:
   type: article
-  title: "Substitute or complement? Benchmarking Earth observation foundation-model embeddings against engineered features for soil and vegetation prediction under spatial cross-validation"
+  title: "Substitute or complement? Benchmarking AlphaEarth embeddings against engineered features for soil organic carbon and vegetation-stress prediction in Germany under spatial cross-validation"
   authors:
     - family-names: "Yakar"
       given-names: "Funda"
       orcid: "https://orcid.org/0000-0002-7082-3956"
   year: 2026
-  notes: "Under review. Update volume, pages and DOI on acceptance."
+  notes: "Article metadata should be updated with journal, volume, pages, and article DOI after publication."

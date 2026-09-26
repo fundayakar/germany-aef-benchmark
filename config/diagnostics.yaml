@@ -1,0 +1,38 @@
+seed: 42
+statistical_testing:
+  spatial_paired_folds: 10
+  bootstrap_resamples: 10000
+  sign_flip_assignments_10_folds: 1024
+
+soc_target_sensitivity:
+  reuse_primary_blocks: true
+  high_oc_threshold_gkg: 120
+  tukey_outlier_threshold_gkg: 169.1
+
+vegetation_threshold_sensitivity:
+  thresholds: [-0.5, -1.0, -1.5]
+  main_threshold: -1.0
+
+dimensionality_sensitivity:
+  fold_internal_scaling_and_pca: true
+  soc_components: 17
+  vegetation_components: 5
+
+spatial_block_sensitivity:
+  block_counts: [5, 10, 15]
+  primary_block_count: 10
+
+same_year_embedding_diagnostic:
+  main_embedding_timing: prior_year
+  diagnostic_embedding_timing: same_year
+
+temporal_transfer:
+  modelled_years: [2018, 2019, 2020, 2021, 2022, 2023, 2024]
+  label_baseline: "2017-2024 excluding the evaluation year"
+  region_year_folds: 70
+
+linear_learner_sensitivity:
+  standardize_within_training_fold: true
+  ridge_alpha: [0.01, 0.1, 1, 10, 100]
+  logistic_C: [0.01, 0.1, 1, 10, 100]
+  select_by_heldout_performance: false

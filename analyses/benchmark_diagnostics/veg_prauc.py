@@ -5,6 +5,7 @@ for both the spatial (GroupKFold on k-means blocks) and random (shuffled KFold)
 10-fold schemes. Reports mean +/- SD per feature set, in AEF/Stack/AEF+Stack
 order, plus the no-skill PR-AUC baseline (= overall stress prevalence).
 """
+from pathlib import Path
 import numpy as np, pandas as pd
 from sklearn.cluster import KMeans
 from sklearn.model_selection import GroupKFold, KFold
@@ -16,7 +17,10 @@ N_BLOCKS = 10
 XGB_PARAMS = dict(n_estimators=300, max_depth=5, learning_rate=0.05, subsample=0.8,
                   colsample_bytree=0.8, tree_method="hist", random_state=SEED,
                   n_jobs=-1, eval_metric="logloss")
-VEG_PATH = "veg_stress_pointlevel.csv"
+ROOT = Path(__file__).resolve().parents[2]
+DATA_DIR = ROOT / "data"
+OUT_DIR = Path(__file__).resolve().parent
+VEG_PATH = DATA_DIR / "veg_stress_pointlevel.csv"
 BANDS = [f"A{i:02d}" for i in range(64)]
 
 def blocks(coords):
@@ -82,7 +86,7 @@ out['_ord'] = out['feature_set'].map(order)
 out = out.sort_values(['scheme', '_ord']).drop(columns='_ord').reset_index(drop=True)
 out['no_skill_PR_AUC_baseline'] = round(overall_prevalence, 4)
 
-out.to_csv("veg_prauc_table1_folds.csv", index=False)
+out.to_csv(OUT_DIR / "veg_prauc_table1_folds.csv", index=False)
 print("\n=== Final table (AEF, Stack, AEF+Stack order) ===")
 print(out.to_string(index=False))
 print(f"\nNo-skill PR-AUC baseline (overall prevalence) = {overall_prevalence:.4f}")

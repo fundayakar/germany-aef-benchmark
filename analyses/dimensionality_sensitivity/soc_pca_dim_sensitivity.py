@@ -15,6 +15,7 @@ Feature sets:
   AEF-PCA17+Stack-17: PCA-reduced AlphaEarth (17) + engineered stack (17)
   AEF-64+Stack-17   : raw AlphaEarth (64) + engineered stack (17), as in Table 1
 """
+from pathlib import Path
 import numpy as np, pandas as pd
 from sklearn.cluster import KMeans
 from sklearn.model_selection import GroupKFold
@@ -33,7 +34,10 @@ STACK = ['B2','B3','B4','B8','B11','B12','NDVI','VV','VH','VV_div_VH','VV_minus_
 BANDS = [f"A{i:02d}" for i in range(64)]
 PCA_N = 17
 
-df = pd.read_csv("SOC_master_aligned.csv")
+ROOT = Path(__file__).resolve().parents[2]
+DATA_DIR = ROOT / "data"
+OUT_DIR = Path(__file__).resolve().parent
+df = pd.read_csv(DATA_DIR / "SOC_master_aligned.csv")
 df['blk'] = KMeans(n_clusters=N_BLOCKS, random_state=SEED, n_init=10).fit_predict(df[['lon','lat']].values)
 y = np.log1p(df['Lucas_OC'].values)
 groups = df['blk'].values
@@ -71,12 +75,12 @@ for k, (tr, te) in enumerate(folds):
     print(f"fold {k}: PCA(17) explained variance ratio = {evr:.4f}")
 
 fold_df = pd.DataFrame(fold_rows)
-fold_df.to_csv("soc_pca_dim_fold_level.csv", index=False)
+fold_df.to_csv(OUT_DIR / "soc_pca_dim_fold_level.csv", index=False)
 
 summary = fold_df.groupby('feature_set')['R2'].agg(['mean', 'std']).round(4)
 order = ['Stack-17', 'AEF-64', 'AEF-PCA17', 'AEF-PCA17+Stack-17', 'AEF-64+Stack-17']
 summary = summary.reindex(order)
-summary.to_csv("soc_pca_dim_summary.csv")
+summary.to_csv(OUT_DIR / "soc_pca_dim_summary.csv")
 print("\n=== Spatial-CV R2 by feature set (mean +/- SD over 10 folds) ===")
 print(summary)
 
@@ -104,6 +108,6 @@ piv = fold_df.pivot(index='fold', columns='feature_set', values='R2').sort_index
 pairs = [('AEF-PCA17', 'Stack-17'), ('AEF-64', 'AEF-PCA17'), ('AEF-PCA17+Stack-17', 'AEF-PCA17')]
 paired_rows = [paired_stats(piv[a].values, piv[b].values, a, b) for a, b in pairs]
 paired_df = pd.DataFrame(paired_rows)
-paired_df.to_csv("soc_pca_dim_paired.csv", index=False)
+paired_df.to_csv(OUT_DIR / "soc_pca_dim_paired.csv", index=False)
 print("\n=== Paired comparisons ===")
 print(paired_df.to_string(index=False))

@@ -17,8 +17,8 @@ Steps:
      year's embedding, suffix "_prev"). This avoids circularity, since the
      same-year embedding would encode the growing-season surface state from
      which the NDVI-based label is derived. This drops the first year (2017)
-     per point, leaving 2018-2024 (7 years x 2000 points = 13832 point-years
-     after the NDVI/climate completeness check).
+     per point, leaving 2018-2024. After the NDVI/climate completeness check,
+     1,976 locations remain, giving 1,976 x 7 = 13,832 point-years.
 
 Output: veg_labeled.csv
   columns: id, lon, lat, lc, year, gs_ndvi,
@@ -28,13 +28,16 @@ Output: veg_labeled.csv
            A00_prev..A63_prev (antecedent embedding predictors)
 """
 
+from pathlib import Path
 import pandas as pd
 
 AEF_BANDS = [f"A{i:02d}" for i in range(64)]
 CLIMATE_COLS = ["precip_winter", "precip_spring", "temp_spring", "sm_winter", "sm_spring"]
 
-INPUT_CSV = "veg_stress_pointlevel.csv"
-OUTPUT_CSV = "veg_labeled.csv"
+ROOT = Path(__file__).resolve().parents[1]
+DATA_DIR = ROOT / "data"
+INPUT_CSV = DATA_DIR / "veg_stress_pointlevel.csv"
+OUTPUT_CSV = DATA_DIR / "veg_labeled.csv"
 
 STRESS_Z_THRESHOLD = -1.0  # z < threshold -> stress = 1
 

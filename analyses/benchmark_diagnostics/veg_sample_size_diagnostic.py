@@ -12,9 +12,13 @@ strip (53.3-54.9 deg N, North Sea to Baltic coastline), consistent with (but
 not independently confirmed against) ERA5-Land's known land-sea masking near
 coastlines.
 """
+from pathlib import Path
 import pandas as pd
 
-VEG_PATH = "veg_stress_pointlevel.csv"
+ROOT = Path(__file__).resolve().parents[2]
+DATA_DIR = ROOT / "data"
+OUT_DIR = Path(__file__).resolve().parent
+VEG_PATH = DATA_DIR / "veg_stress_pointlevel.csv"
 CLIM = ['precip_winter', 'precip_spring', 'temp_spring', 'sm_winter', 'sm_spring']
 BANDS = [f"A{i:02d}" for i in range(64)]
 

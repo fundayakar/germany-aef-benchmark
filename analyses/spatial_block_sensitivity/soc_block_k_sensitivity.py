@@ -1,3 +1,4 @@
+from pathlib import Path
 import numpy as np, pandas as pd
 from sklearn.cluster import KMeans
 from sklearn.model_selection import GroupKFold
@@ -13,7 +14,10 @@ STACK = ['B2','B3','B4','B8','B11','B12','NDVI','VV','VH','VV_div_VH','VV_minus_
 BANDS = [f"A{i:02d}" for i in range(64)]
 K_VALUES = [5, 10, 15]
 
-df = pd.read_csv("SOC_master_aligned.csv")
+ROOT = Path(__file__).resolve().parents[2]
+DATA_DIR = ROOT / "data"
+OUT_DIR = Path(__file__).resolve().parent
+df = pd.read_csv(DATA_DIR / "SOC_master_aligned.csv")
 y = np.log1p(df['Lucas_OC'].values)
 sets = {'AEF': BANDS, 'Stack': STACK, 'AEF+Stack': BANDS + STACK}
 
@@ -67,9 +71,9 @@ fold_all = pd.concat(all_fold_rows, ignore_index=True)
 summary_all = pd.concat(all_summary, ignore_index=True)
 paired_all = pd.DataFrame(all_paired)
 
-fold_all.to_csv("soc_block_k_sensitivity_folds.csv", index=False)
-summary_all.to_csv("soc_block_k_sensitivity_summary.csv", index=False)
-paired_all.to_csv("soc_block_k_sensitivity_paired.csv", index=False)
+fold_all.to_csv(OUT_DIR / "soc_block_k_sensitivity_folds.csv", index=False)
+summary_all.to_csv(OUT_DIR / "soc_block_k_sensitivity_summary.csv", index=False)
+paired_all.to_csv(OUT_DIR / "soc_block_k_sensitivity_paired.csv", index=False)
 
 print("\n\n=== SOC summary (all k) ===")
 print(summary_all.to_string(index=False))

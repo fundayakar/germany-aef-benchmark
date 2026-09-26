@@ -12,10 +12,14 @@ Reads veg_pca_dim_fold_level.csv (must be run first); same paired-bootstrap /
 exact sign-flip permutation methodology used throughout (seed 42, 10,000
 resamples, 2^10 = 1024 sign assignments for the exact test).
 """
+from pathlib import Path
 import pandas as pd, numpy as np
 from itertools import product
 
-fold_df = pd.read_csv("veg_pca_dim_fold_level.csv")
+ROOT = Path(__file__).resolve().parents[2]
+DATA_DIR = ROOT / "data"
+OUT_DIR = Path(__file__).resolve().parent
+fold_df = pd.read_csv(OUT_DIR / "veg_pca_dim_fold_level.csv")
 
 RNG = np.random.default_rng(42)
 N_BOOT = 10000
@@ -41,5 +45,5 @@ for metric in ['ROC_AUC', 'PR_AUC']:
         rows.append(paired_stats(piv[a].values, piv[b].values, a, b, metric))
 
 out = pd.DataFrame(rows)
-out.to_csv("veg_pca_dim_paired_extra.csv", index=False)
+out.to_csv(OUT_DIR / "veg_pca_dim_paired_extra.csv", index=False)
 print(out.to_string(index=False))

@@ -4,6 +4,7 @@ from sklearn.model_selection import GroupKFold
 from sklearn.metrics import roc_auc_score, average_precision_score
 from scipy import stats
 from itertools import product
+from pathlib import Path
 import xgboost as xgb
 
 SEED = 42
@@ -11,7 +12,10 @@ N_BLOCKS = 10
 XGB_PARAMS = dict(n_estimators=300, max_depth=5, learning_rate=0.05, subsample=0.8,
                   colsample_bytree=0.8, tree_method="hist", random_state=SEED,
                   n_jobs=-1, eval_metric="logloss")
-VEG_PATH = "veg_stress_pointlevel.csv"
+ROOT = Path(__file__).resolve().parents[2]
+DATA_DIR = ROOT / "data"
+OUT_DIR = Path(__file__).resolve().parent
+VEG_PATH = DATA_DIR / "veg_stress_pointlevel.csv"
 BANDS = [f"A{i:02d}" for i in range(64)]
 
 def blocks(coords):
@@ -54,7 +58,7 @@ for name, cols in sets.items():
     print(f"[{name}] done.")
 
 fold_df = pd.DataFrame(fold_rows)
-fold_df.to_csv("veg_prauc_rocauc_fold_level.csv", index=False)
+fold_df.to_csv(OUT_DIR / "veg_prauc_rocauc_fold_level.csv", index=False)
 
 RNG = np.random.default_rng(42)
 N_BOOT = 10000
@@ -82,6 +86,6 @@ for metric in ['ROC_AUC', 'PR_AUC']:
         rows.append(paired_stats(piv[a].values, piv[b].values, a, b, metric))
 
 out = pd.DataFrame(rows)
-out.to_csv("veg_paired_rocauc_prauc.csv", index=False)
+out.to_csv(OUT_DIR / "veg_paired_rocauc_prauc.csv", index=False)
 print("\n=== Paired fold-level comparison: vegetation ROC-AUC and PR-AUC (spatial CV, n=10 folds) ===")
 print(out.to_string(index=False))

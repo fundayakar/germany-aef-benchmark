@@ -13,6 +13,7 @@ Outputs:
   vegetation_points_blocks.csv : point_id, lon, lat, block_id, land_cover
                                   (n=1,976 unique locations, not point-years)
 """
+from pathlib import Path
 import pandas as pd
 from sklearn.cluster import KMeans
 
@@ -20,13 +21,16 @@ SEED = 42
 N_BLOCKS = 10
 
 # ============ SOC ============
-soc = pd.read_csv("SOC_master_aligned.csv")
+ROOT = Path(__file__).resolve().parents[2]
+DATA_DIR = ROOT / "data"
+OUT_DIR = Path(__file__).resolve().parent
+soc = pd.read_csv(DATA_DIR / "SOC_master_aligned.csv")
 soc_blk = KMeans(n_clusters=N_BLOCKS, random_state=SEED, n_init=10).fit_predict(soc[['lon', 'lat']].values)
 soc_out = pd.DataFrame({
     'site_id': soc['POINTID'], 'lon': soc['lon'], 'lat': soc['lat'],
     'block_id': soc_blk, 'OC_gkg': soc['Lucas_OC'],
 })
-soc_out.to_csv("soc_points_blocks.csv", index=False)
+soc_out.to_csv(OUT_DIR / "soc_points_blocks.csv", index=False)
 print("=== SOC ===")
 print("n points:", len(soc_out), "| n unique blocks:", soc_out['block_id'].nunique())
 print(soc_out['block_id'].value_counts().sort_index())
@@ -34,7 +38,7 @@ print(soc_out['block_id'].value_counts().sort_index())
 # ============ Vegetation (one row per unique location) ============
 CLIM = ['precip_winter', 'precip_spring', 'temp_spring', 'sm_winter', 'sm_spring']
 BANDS = [f"A{i:02d}" for i in range(64)]
-veg = pd.read_csv("veg_stress_pointlevel.csv")
+veg = pd.read_csv(DATA_DIR / "veg_stress_pointlevel.csv")
 veg = veg.dropna(subset=['gs_ndvi'] + CLIM).copy()
 veg = veg.sort_values(['id', 'year'])
 prev = veg.groupby('id')[BANDS].shift(1); prev.columns = [b + '_p' for b in BANDS]
@@ -48,7 +52,7 @@ veg_out = pd.DataFrame({
     'point_id': pts['id'], 'lon': pts['lon'], 'lat': pts['lat'],
     'block_id': pts_blk, 'land_cover': pts['lc'].map(lc_map),
 })
-veg_out.to_csv("vegetation_points_blocks.csv", index=False)
+veg_out.to_csv(OUT_DIR / "vegetation_points_blocks.csv", index=False)
 print("\n=== Vegetation ===")
 print("n unique locations:", len(veg_out), "| n unique blocks:", veg_out['block_id'].nunique())
 print(veg_out['block_id'].value_counts().sort_index())

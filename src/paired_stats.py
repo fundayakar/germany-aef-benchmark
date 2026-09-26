@@ -1,6 +1,10 @@
+from pathlib import Path
 import numpy as np, pandas as pd
 from scipy import stats
 from itertools import product
+
+ROOT = Path(__file__).resolve().parents[1]
+RESULTS_DIR = ROOT / "results"
 
 RNG = np.random.default_rng(42)
 N_BOOT = 10000
@@ -43,7 +47,7 @@ def paired_stats(vals_a, vals_b, label_a, label_b, metric_name):
     }
 
 def analyze(task, metric_col):
-    fold = pd.read_csv(f"fold_level_{task}_spatial.csv")
+    fold = pd.read_csv(RESULTS_DIR / f"fold_level_{task}_spatial.csv")
     piv = fold.pivot(index='fold', columns='feature_set', values=metric_col).sort_index()
     pairs = [('AEF', 'Stack'), ('AEF+Stack', 'AEF'), ('AEF+Stack', 'Stack')]
     rows = []
@@ -56,7 +60,7 @@ def analyze(task, metric_col):
 soc_stats = analyze('soc', 'R2')
 veg_stats = analyze('veg', 'ROC_AUC')
 all_stats = pd.concat([soc_stats, veg_stats], ignore_index=True)
-all_stats.to_csv("paired_bootstrap_results.csv", index=False)
+all_stats.to_csv(RESULTS_DIR / "paired_bootstrap_results.csv", index=False)
 
 pd.set_option('display.width', 140)
 print(all_stats.to_string(index=False))
