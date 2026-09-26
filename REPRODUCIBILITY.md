@@ -133,10 +133,12 @@ python analyses/linear_learner_sensitivity/veg_linear_learner_sensitivity.py
 
 Both analyses reuse the same samples, feature sets, and ten spatial folds as the primary comparison. Predictor standardization is fitted on each training fold. Ridge alpha and logistic-regression C are evaluated over 0.01, 0.1, 1, 10, and 100; no value is selected according to held-out-fold performance.
 
+The folder contains fold-level results, summaries, paired contrasts, and ranking diagnostics for both tasks: `soc_linear_fold_level.csv`, `soc_linear_summary.csv`, `soc_linear_paired.csv`, `soc_linear_ranking.csv`, and the corresponding `veg_linear_*` files.
+
 ## 13. Supplementary material
 
 The journal supplementary file is stored at `supplementary/Supplementary_Material.docx` and contains Supplementary Tables S1-S4.
 
 ## 14. Archived analyses
 
-`analyses/archive/` contains superseded variants retained only to preserve analytical provenance. These files are not used to generate reported manuscript results.
+`analyses/archive/` contains superseded variants retained only to preserve analytical provenance. This includes the earlier six-year LOYO label baseline, the SOC sensitivity variant that recomputed spatial blocks, and the original full-period temporal diagnostic scripts. These files are not used to generate the corrected temporal results reported in Table 6.
