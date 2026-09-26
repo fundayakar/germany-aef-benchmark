@@ -1,0 +1,4 @@
+comparison,mean_diff,ci95_lo,ci95_hi,ci_excludes_zero,perm_p
+AEF-PCA17 - Stack-17,0.1035,-0.0548,0.2271,False,0.2051
+AEF-64 - AEF-PCA17,0.0338,-0.0069,0.0857,False,0.2012
+AEF-PCA17+Stack-17 - AEF-PCA17,0.0046,-0.0606,0.0823,False,0.916
