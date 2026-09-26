@@ -1,0 +1,32 @@
+Raw export: 16000 rows, 2000 unique locations, 8 years -> expected 16000 rows if complete
+
+Missing gs_ndvi: 8 rows
+Missing precip_winter: 192 rows
+Missing precip_spring: 192 rows
+Missing temp_spring: 192 rows
+Missing sm_winter: 192 rows
+Missing sm_spring: 192 rows
+Missing any AlphaEarth band (A00 as proxy): 0 rows
+
+Rows missing >=1 climate variable: 192
+Unique locations affected: 24
+
+Distribution of (# missing years) per affected location:
+8    24
+Name: count, dtype: int64
+
+Locations missing climate in ALL 8 years (fully dropped): 24
+
+Land-cover class distribution among dropped locations (1=forest, 2=cropland, 3=grassland, 4=other):
+lc
+2     7
+3     5
+4    12
+Name: count, dtype: int64
+
+Latitude range of dropped locations: 53.339 - 54.871
+Latitude range of all 2,000 sampled locations: 47.338 - 54.871
+
+Final panel: 13832 point-years, 1976 locations
+Distinct year-sets across all retained locations: 1 (1 means fully balanced panel)
+Year-set: [(2018, 2019, 2020, 2021, 2022, 2023, 2024)]
