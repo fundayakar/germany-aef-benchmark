@@ -12,6 +12,7 @@ Everything else (predictors, feature sets, model config, the 13,832-row
 modelling panel) is identical to the main LOYO analysis and to the previous
 (6-year-baseline) version of this sensitivity check.
 """
+from pathlib import Path
 import numpy as np, pandas as pd
 from sklearn.metrics import roc_auc_score, average_precision_score, brier_score_loss
 from scipy import stats
@@ -22,7 +23,10 @@ SEED = 42
 XGB_PARAMS = dict(n_estimators=300, max_depth=5, learning_rate=0.05, subsample=0.8,
                   colsample_bytree=0.8, tree_method="hist", random_state=SEED,
                   n_jobs=-1, eval_metric="logloss")
-VEG_PATH = "veg_stress_pointlevel.csv"
+ROOT = Path(__file__).resolve().parents[2]
+DATA_DIR = ROOT / "data"
+OUT_DIR = Path(__file__).resolve().parent
+VEG_PATH = DATA_DIR / "veg_stress_pointlevel.csv"
 BANDS = [f"A{i:02d}" for i in range(64)]
 CLIM = ['precip_winter', 'precip_spring', 'temp_spring', 'sm_winter', 'sm_spring']
 MODELING_YEARS = list(range(2018, 2025))   # 2018..2024 -- possible test years / modelled rows
@@ -95,8 +99,8 @@ for y_test in MODELING_YEARS:
 
 fold_df_out = pd.DataFrame(fold_rows)
 prev_df = pd.DataFrame(prevalence_rows)
-fold_df_out.to_csv("veg_loyo_trainonly_v2_per_year.csv", index=False)
-prev_df.to_csv("veg_loyo_trainonly_v2_prevalence.csv", index=False)
+fold_df_out.to_csv(OUT_DIR / "veg_loyo_trainonly_v2_per_year.csv", index=False)
+prev_df.to_csv(OUT_DIR / "veg_loyo_trainonly_v2_prevalence.csv", index=False)
 
 # ---- pooled metrics: each row scored against the label it received when IT was the test year ----
 pooled_rows = []
@@ -113,7 +117,7 @@ for name in sets:
     pooled_rows.append({'feature_set': name, 'pooled_ROC_AUC': round(auc, 4), 'pooled_PR_AUC': round(ap, 4),
                          'pooled_Brier': round(brier, 4), 'mean_of_yearwise_ROC_AUC': round(mean_yw_auc, 4)})
 pooled_df = pd.DataFrame(pooled_rows)
-pooled_df.to_csv("veg_loyo_trainonly_v2_pooled.csv", index=False)
+pooled_df.to_csv(OUT_DIR / "veg_loyo_trainonly_v2_pooled.csv", index=False)
 
 # ---- one-sample test vs chance (0.5) for mean-of-yearwise AUC ----
 RNG = np.random.default_rng(42)
@@ -131,7 +135,7 @@ for name in sets:
                          'ci95_lo': round(lo + 0.5, 4), 'ci95_hi': round(hi + 0.5, 4),
                          'excludes_0.5': bool(lo > 0 or hi < 0), 'perm_p': round(p_perm, 4)})
 chance_df = pd.DataFrame(chance_rows)
-chance_df.to_csv("veg_loyo_trainonly_v2_vs_chance.csv", index=False)
+chance_df.to_csv(OUT_DIR / "veg_loyo_trainonly_v2_vs_chance.csv", index=False)
 
 print("\n=== Yearly prevalence (2017-2024-based, test-year-excluded baseline) ===")
 print(prev_df.to_string(index=False))
