@@ -1,0 +1,4 @@
+feature_set,pooled_ROC_AUC,pooled_PR_AUC,pooled_Brier,mean_of_yearwise_ROC_AUC
+AEF,0.7264,0.4621,0.1582,0.537
+Stack,0.5883,0.2689,0.2011,0.5143
+AEF+Stack,0.6686,0.3265,0.1803,0.561
