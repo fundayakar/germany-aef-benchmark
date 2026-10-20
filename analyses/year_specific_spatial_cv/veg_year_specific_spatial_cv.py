@@ -59,11 +59,29 @@ def evaluate(input_path: Path) -> pd.DataFrame:
     out = out[column_order]
 
     macro = {column: float(out[column].mean()) for column in metric_columns}
-    macro_row = pd.DataFrame(
-        [["Macro-average", "", "", *[macro[column] for column in metric_columns]]],
-        columns=column_order,
-    )
-    return pd.concat([out, macro_row], ignore_index=True)
+    macro_row: dict[str, object] = {
+        "year": "Macro-average",
+        "n": None,
+        "positive_prevalence": None,
+        **macro,
+    }
+    return pd.DataFrame([*out.to_dict("records"), macro_row], columns=column_order)
+
+
+def write_csv(result: pd.DataFrame, output_path: Path) -> None:
+    columns = list(result.columns)
+    lines = [",".join(columns)]
+    for _, row in result.iterrows():
+        year = str(row["year"])
+        if year == "Macro-average":
+            n = ""
+            prevalence = ""
+        else:
+            n = str(int(row["n"]))
+            prevalence = f"{float(row['positive_prevalence']):.3f}"
+        metrics = [f"{float(row[column]):.3f}" for column in columns[3:]]
+        lines.append(",".join([year, n, prevalence, *metrics]))
+    output_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def main() -> None:
@@ -74,7 +92,7 @@ def main() -> None:
 
     result = evaluate(args.input)
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    result.to_csv(args.output, index=False, float_format="%.3f")
+    write_csv(result, args.output)
     print(result.to_string(index=False, float_format=lambda value: f"{value:.3f}"))
     print(f"\nWrote {args.output}")
 
