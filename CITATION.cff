@@ -1,12 +1,14 @@
 cff-version: 1.2.0
 message: "If you use this software or analysis package, please cite the associated article and archived repository."
-title: "germany-aef-benchmark: AlphaEarth embeddings versus engineered predictors for soil organic carbon and vegetation-stress prediction"
+title: "germany-aef-benchmark: AlphaEarth embeddings versus engineered predictors for soil organic carbon prediction and vegetation greenness-anomaly classification"
 authors:
   - family-names: "Yakar"
     given-names: "Funda"
     orcid: "https://orcid.org/0000-0002-7082-3956"
     affiliation: "Ministry of Agriculture and Forestry, Türkiye"
     email: "fundayakar@tarimorman.gov.tr"
+version: 1.4.0
+date-released: 2026-10-20
 license: MIT
 repository-code: "https://github.com/fundayakar/germany-aef-benchmark"
 identifiers:
@@ -18,11 +20,11 @@ keywords:
   - AlphaEarth embeddings
   - spatial cross-validation
   - soil organic carbon
-  - vegetation stress
+  - vegetation greenness anomaly
   - model interpretability
 preferred-citation:
   type: article
-  title: "Substitute or complement? Benchmarking AlphaEarth embeddings against engineered features for soil organic carbon and vegetation-stress prediction in Germany under spatial cross-validation"
+  title: "Substitute or complement? Benchmarking AlphaEarth embeddings against engineered features for soil organic carbon prediction and vegetation greenness-anomaly classification in Germany under spatial cross-validation"
   authors:
     - family-names: "Yakar"
       given-names: "Funda"
