@@ -28,6 +28,7 @@ Raw and intermediate modelling tables are not redistributed in this GitHub repos
 ## ERA5-Land climate
 - SOC benchmark: annual soil moisture, summer 2 m temperature, winter total precipitation.
 - Vegetation benchmark: preceding-winter and spring precipitation, spring 2 m temperature, and preceding-winter and spring volumetric soil water.
+- The vegetation comparator is described as **winter-spring hydroclimate**, not as strictly antecedent hydroclimate, because March-May summaries overlap the April-September NDVI target window during April and May.
 - Reference: Muñoz-Sabater et al. (2021).
 
 ## ESA WorldCover
@@ -39,6 +40,7 @@ Raw and intermediate modelling tables are not redistributed in this GitHub repos
 - MOD13A3 monthly NDVI, Collection 6.1 (V061).
 - Earth Engine: `MODIS/061/MOD13A3`.
 - Reference: Didan (2021).
+- The vegetation classification target is a location-specific negative growing-season greenness anomaly (z < -1 SD), treated as a remote-sensing proxy rather than a direct physiological stress measurement.
 
 ## Local modelling tables
 
@@ -49,11 +51,17 @@ data/SOC_master_aligned.csv
 data/veg_stress_pointlevel.csv
 ```
 
+`veg_stress_pointlevel.csv` is retained as a **legacy local filename** because the existing benchmark scripts expect it. The manuscript and current documentation refer to the modeled outcome as a vegetation greenness anomaly. The primary script also retains the internal column name `stress` for backward compatibility; in that code, `stress = 1` denotes the negative greenness-anomaly class defined by per-location growing-season NDVI z < -1 SD.
+
 The SOC benchmark retains 772 LUCAS sites after screening and predictor alignment.
 
-For vegetation stress, 2,000 locations were initially sampled. Twenty-four locations were excluded because ERA5-Land predictors were unavailable for all years at those locations, leaving 1,976 locations with complete climate and NDVI records. The prior-year embedding design removes the first available model year, giving a final balanced panel of 1,976 locations × 7 years (2018-2024) = 13,832 point-years.
+For the vegetation greenness-anomaly benchmark, 2,000 locations were initially sampled. Twenty-four locations were excluded because ERA5-Land predictors were unavailable for all years at those locations, leaving 1,976 locations with complete climate and NDVI records. The prior-year embedding design removes the first available model year, giving a final balanced panel of 1,976 locations × 7 years (2018-2024) = 13,832 point-years.
 
-Predictors are extracted at the sampling coordinates at their native spatial supports; no predictor group is spatially averaged to the MODIS footprint.
+Predictors are extracted at the sampling coordinates at their native spatial supports; no predictor group is spatially averaged to the MODIS footprint. Point co-location therefore does not equalize the effective spatial support of 10 m AEF, approximately 1 km MODIS NDVI, and coarser ERA5-Land predictors.
+
+## Archived model outputs
+
+`results/oof_predictions_veg_spatial.csv` contains the out-of-fold probabilities from the primary vegetation spatial-CV benchmark. These archived predictions are re-scored, without model refitting, by `analyses/year_specific_spatial_cv/veg_year_specific_spatial_cv.py` to produce `results/veg_year_specific_spatial_cv.csv` and Supplementary Table S5.
 
 ## Licensing
 
