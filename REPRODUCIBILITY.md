@@ -29,6 +29,8 @@ data/SOC_master_aligned.csv
 data/veg_stress_pointlevel.csv
 ```
 
+The vegetation filename is retained for backward compatibility with the existing scripts; the modeled outcome is described in the manuscript as a negative vegetation greenness anomaly.
+
 The final vegetation modelling panel contains 1,976 locations × 7 modelled years (2018-2024) = 13,832 point-years.
 
 ## 3. Earth Engine extraction
@@ -45,6 +47,8 @@ python src/lock_and_run.py veg_random
 ```
 
 The script uses the fixed settings documented in `config/benchmark.yaml` and writes `results/final_benchmark_locked.csv`. Existing rows for the same task and validation scheme are replaced rather than duplicated.
+
+The primary script retains the legacy internal label name `stress`; it corresponds to the negative vegetation greenness-anomaly class defined from location-specific growing-season NDVI.
 
 ### Table 1 vegetation PR-AUC
 
@@ -78,7 +82,7 @@ Reported outputs are `results/soc_sensitivity_fixedblocks_summary.csv` and `resu
 
 The earlier variant that recomputed blocks after exclusions is retained in `analyses/archive/` and is not used for manuscript results.
 
-## 7. Vegetation threshold sensitivity
+## 7. Vegetation greenness-anomaly threshold sensitivity
 
 ```bash
 python src/veg_threshold_sensitivity.py
@@ -103,7 +107,7 @@ python analyses/dimensionality_sensitivity/veg_pca_dim_sensitivity.py
 python analyses/dimensionality_sensitivity/veg_pca_dim_paired_extra.py
 ```
 
-Scaling and PCA are fitted within each training fold and applied to the corresponding held-out fold. SOC uses 17 components; vegetation stress uses 5.
+Scaling and PCA are fitted within each training fold and applied to the corresponding held-out fold. SOC uses 17 components; the vegetation greenness-anomaly benchmark uses 5 components to match the five winter-spring hydroclimate predictors.
 
 ## 10. Same-year AlphaEarth diagnostic — Supplementary Table S3
 
@@ -111,7 +115,7 @@ Scaling and PCA are fitted within each training fold and applied to the correspo
 python analyses/same_year_embedding_diagnostic/veg_sameyear_aef.py
 ```
 
-This changes the embedding source year from prior-year to same-year while retaining the main-analysis row mask. It is treated as a circularity-prone upper-bound diagnostic.
+This changes the embedding source year from prior-year to same-year while retaining the main-analysis row mask. It is treated as a circularity-prone upper-bound diagnostic because a same-year annual embedding may contain surface information from the growing season used to derive the NDVI anomaly target.
 
 ## 11. Temporal and joint spatio-temporal transfer
 
@@ -135,10 +139,32 @@ Both analyses reuse the same samples, feature sets, and ten spatial folds as the
 
 The folder contains fold-level results, summaries, paired contrasts, and ranking diagnostics for both tasks: `soc_linear_fold_level.csv`, `soc_linear_summary.csv`, `soc_linear_paired.csv`, `soc_linear_ranking.csv`, and the corresponding `veg_linear_*` files.
 
-## 13. Supplementary material
+## 13. Year-specific spatial-CV evaluation — Supplementary Table S5
 
-The journal supplementary file is stored at `supplementary/Supplementary_Material.docx` and contains Supplementary Tables S1-S4.
+The current revision adds a year-specific evaluation of the **existing** primary vegetation spatial-CV out-of-fold predictions. No model is refitted.
 
-## 14. Archived analyses
+```bash
+python analyses/year_specific_spatial_cv/veg_year_specific_spatial_cv.py
+```
+
+Input:
+
+```text
+results/oof_predictions_veg_spatial.csv
+```
+
+Output:
+
+```text
+results/veg_year_specific_spatial_cv.csv
+```
+
+ROC-AUC and PR-AUC are calculated separately within each year from 2018 through 2024, and unweighted macro-averages are reported across the seven years. This diagnostic separates within-year spatial discrimination from performance that can arise from ranking observations across years with strongly different positive-class prevalence.
+
+## 14. Supplementary material
+
+The journal supplementary file is stored at `supplementary/Supplementary_Material.docx` and contains Supplementary Tables S1-S5.
+
+## 15. Archived analyses
 
 `analyses/archive/` contains superseded variants retained only to preserve analytical provenance. This includes the earlier six-year LOYO label baseline, the SOC sensitivity variant that recomputed spatial blocks, and the original full-period temporal diagnostic scripts. These files are not used to generate the corrected temporal results reported in Table 6.
